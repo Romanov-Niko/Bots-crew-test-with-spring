@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/database_university
+    username: postgres
+    password: fhbufnj8
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  main:
+    web-application-type: NONE
+    banner-mode: off
