@@ -1,8 +1,8 @@
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/database_university
-    username: postgres
-    password: fhbufnj8
+    username: somegreatusername
+    password: somegreatpassword
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   main:

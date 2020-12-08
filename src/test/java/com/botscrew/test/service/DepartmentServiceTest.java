@@ -18,7 +18,8 @@ import java.util.Optional;
 import static com.botscrew.test.TestData.biologyDepartment;
 import static com.botscrew.test.TestData.thirdLector;
 import static java.util.Collections.singletonList;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)

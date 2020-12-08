@@ -11,7 +11,7 @@ import java.util.List;
 
 import static com.botscrew.test.TestData.biologyDepartment;
 import static java.util.Collections.singletonList;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 @ExtendWith(SpringExtension.class)
