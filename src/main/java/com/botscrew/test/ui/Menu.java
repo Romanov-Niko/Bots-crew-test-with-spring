@@ -2,6 +2,8 @@ package com.botscrew.test.ui;
 
 import com.botscrew.test.domain.Department;
 import com.botscrew.test.domain.Lector;
+import com.botscrew.test.exception.DepartmentDoesNotExistException;
+import com.botscrew.test.exception.EntityNotFoundException;
 import com.botscrew.test.service.DepartmentService;
 import com.botscrew.test.service.LectorService;
 import org.springframework.stereotype.Component;
@@ -59,28 +61,44 @@ public class Menu {
 
     private void getHeadOfDepartment() {
         String nameOfDepartment = getName();
-        Lector head = lectorService.findHeadByDepartmentName(nameOfDepartment);
-        System.out.printf("Head of department is %s %s%n", head.getName(), head.getSurname());
+        try {
+            Lector head = lectorService.findHeadByDepartmentName(nameOfDepartment);
+            System.out.printf("Head of department is %s %s%n", head.getName(), head.getSurname());
+        } catch (DepartmentDoesNotExistException exception) {
+            System.out.println(exception.getMessage());
+        }
     }
 
     private void getDepartmentStatistic() {
         String nameOfDepartment = getName();
-        Map<String, Long> statistic = departmentService.findDegreeStatisticByDepartmentName(nameOfDepartment);
-        if (statistic.isEmpty()) {
-            System.out.println("There is no employees on faculty");
-        } else {
-            statistic.forEach((key, value) -> System.out.println(key + ":" + value));
+        try {
+            Map<String, Long> statistic = departmentService.findDegreeStatisticByDepartmentName(nameOfDepartment);
+            if (statistic.isEmpty()) {
+                System.out.println("There is no employees on faculty");
+            } else {
+                statistic.forEach((key, value) -> System.out.println(key + ":" + value));
+            }
+        } catch (EntityNotFoundException exception) {
+            System.out.println(exception.getMessage());
         }
     }
 
     private void getAverageSalary() {
         String nameOfDepartment = getName();
-        System.out.println("Average salary on faculty is " + round(departmentService.findAverageSalaryByDepartmentName(nameOfDepartment) * 100.0) / 100.0);
+        try {
+            System.out.println("Average salary on faculty is " + round(departmentService.findAverageSalaryByDepartmentName(nameOfDepartment) * 100.0) / 100.0);
+        } catch (EntityNotFoundException exception) {
+            System.out.println(exception.getMessage());
+        }
     }
 
     private void getNumberOfEmployees() {
         String nameOfDepartment = getName();
-        System.out.println("Number  of employees in the department is " + departmentService.findAllLectorsByDepartmentName(nameOfDepartment));
+        try {
+            System.out.println("Number of employees in the department is " + departmentService.findAllLectorsByDepartmentName(nameOfDepartment));
+        } catch (EntityNotFoundException exception) {
+            System.out.println(exception.getMessage());
+        }
     }
 
     private void globalSearch() {
@@ -90,6 +108,9 @@ public class Menu {
         List<Department> departments = new ArrayList<>(departmentService.findByNameContaining(line));
         lectors.forEach(lector -> System.out.println(lector.getName() + " " + lector.getSurname()));
         departments.forEach(department -> System.out.println(department.getName()));
+        if(lectors.isEmpty() && departments.isEmpty()) {
+            System.out.println("Nothing founded");
+        }
     }
 
     private String getName() {
